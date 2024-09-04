@@ -22,35 +22,42 @@ const Message = ({ content, left, sentAt, user, theme, chatUser }) => {
             />
           </div>
         </div>
-        <div
-          className="px-3 py-3 mx-2  d-flex flex-column"
-          style={{
-            backgroundColor: left
-              ? "#7269ef"
-              : theme
-              ? "rgb(54 64 74)"
-              : "#f5f7fb",
-            borderRadius: "10px",
-          }}
-        >
+        <div className="d-flex flex-column px-3">
           <div
+            className="px-3 py-2   d-flex flex-column"
             style={{
-              color: left ? "#ffffff" : theme ? "#eff2f7" : "#343a40",
-              fontSize: "17px",
-              fontWeight: "500",
+              backgroundColor: left
+                ? "#7269ef"
+                : theme
+                ? "rgb(54 64 74)"
+                : "#f5f7fb",
+              borderRadius: "10px",
             }}
           >
-            {content}
+            <div
+              style={{
+                color: left ? "#ffffff" : theme ? "#eff2f7" : "#343a40",
+                fontSize: "17px",
+                fontWeight: "500",
+              }}
+            >
+              <div>{content}</div>
+            </div>
+            <div
+              className="w-100 d-flex justify-content-end"
+              style={{
+                fontSize: "13px",
+                paddingTop: "5px",
+                color: left ? "#ffffff80" : theme ? "#abb4d2" : "#7a7f9a",
+              }}
+            >
+              {sentDate.getHours() + ":" + sentDate.getMinutes()}
+            </div>
           </div>
-          <div
-            className="w-100 d-flex justify-content-end"
-            style={{
-              fontSize: "13px",
-              paddingTop: "5px",
-              color: left ? "#ffffff80" : theme ? "#abb4d2" : "#7a7f9a",
-            }}
-          >
-            {sentDate.getHours() + ":" + sentDate.getMinutes()}
+          <div>
+            <div style={{ fontSize: "13px" }}>
+              {left ? chatUser.name : user.name}
+            </div>
           </div>
         </div>
       </div>

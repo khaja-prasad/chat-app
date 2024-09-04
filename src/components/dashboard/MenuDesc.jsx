@@ -35,8 +35,6 @@ const MenuDesc = ({
           theme={theme}
           chatUser={chatUser}
           users={users}
-          user={user}
-          setConversationId={(e) => setConversationId(e)}
           setChatBox={(e) => setChatBox(e)}
           setChatUser={(e) => setChatUser(e)}
         />
@@ -50,7 +48,12 @@ const MenuDesc = ({
         />
       )}
       {isSelected === "Contacts" && (
-        <Contacts isSelected={isSelected} theme={theme} user={user} />
+        <Contacts
+          isSelected={isSelected}
+          theme={theme}
+          user={user}
+          users={users}
+        />
       )}
       {isSelected === "Settings" && (
         <Settings isSelected={isSelected} theme={theme} user={user} />

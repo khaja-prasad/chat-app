@@ -411,6 +411,28 @@ input:focus {
 /* .dropup-content a:hover {
   background-color: #f1f1f1;
 } */
+/* 
+div {
+  height: 200px;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  scrollbar-color: green yellow;
+} */
+
+/* style vertical scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #878a9225;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #a7aed23a;
+  border-radius: 20px;
+}
 
 /* 
 sdjfsdf

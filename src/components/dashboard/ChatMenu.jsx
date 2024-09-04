@@ -1,6 +1,4 @@
 import React from "react";
-import axios from "axios";
-import { toast } from "react-toastify";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 
@@ -11,41 +9,9 @@ const ChatMenu = ({
   setChatUser,
   setChatBox,
   users,
-  setConversationId,
-  user,
 }) => {
   const handleChat = async (ar) => {
     setChatUser(ar);
-
-    try {
-      await axios
-        .post("http://localhost:3030/getconversationid", {
-          currentUser: user._id,
-          chatUser: ar._id,
-        })
-        .then(async (res) => {
-          toast.success("conv success", { autoClose: 1000 });
-          console.log(res.data);
-          setConversationId(res.data._id);
-        });
-    } catch (error) {
-      if (error.response.status === 404 || 401) {
-        try {
-          await axios
-            .post("http://localhost:3030/setconversationid", {
-              currentUser: user._id,
-              chatUser: ar._id,
-            })
-            .then((resp) => {
-              toast.success("conv success 2nd ", { autoClose: 1000 });
-              console.log(resp.data);
-              setConversationId(resp.data._id);
-            });
-        } catch (error) {
-          toast.error(error.response.data.message);
-        }
-      }
-    }
 
     setChatBox("0");
   };
@@ -179,6 +145,7 @@ const ChatMenu = ({
           className="mb-3 px-3"
           style={{
             fontSize: "16px",
+            color: theme ? "#eff2f7" : "#000000",
             letterSpacing: "0.5px",
           }}
         >
@@ -191,10 +158,10 @@ const ChatMenu = ({
             height: "70vh",
           }}
         >
-          {users.map((ar, i) => {
+          {users.map((ar) => {
             return (
               <div
-                key={i}
+                key={ar._id}
                 onClick={() => handleChat(ar)}
                 className=" d-flex  "
                 style={{
@@ -228,7 +195,7 @@ const ChatMenu = ({
                       color: theme ? "#eff2f7" : "#343a40",
                     }}
                   >
-                    {ar._id}
+                    {ar.name}
                   </h5>
                   <p
                     style={{

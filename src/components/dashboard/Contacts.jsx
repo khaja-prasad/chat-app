@@ -1,6 +1,19 @@
 import React from "react";
 
-const Contacts = ({ isSelected, theme }) => {
+const Contacts = ({ isSelected, theme, users }) => {
+  const contacts = {};
+
+  users.forEach((user) => {
+    const firstLetter = user.name[0].toUpperCase();
+
+    if (!contacts[firstLetter]) {
+      contacts[firstLetter] = [];
+    }
+    contacts[firstLetter].push(
+      user.name.charAt(0).toUpperCase() + user.name.slice(1)
+    );
+  });
+
   return (
     <div>
       <div className="d-flex flex-column justify-content-between px-4 py-4">
@@ -51,7 +64,7 @@ const Contacts = ({ isSelected, theme }) => {
             type="search"
             name="chat-search"
             id={theme ? "gsearchPhDark" : "gsearchPhLight"}
-            placeholder="Search groups..."
+            placeholder="Search contacts..."
             className={
               "form-control " + (theme ? "phColorDark" : "phColorLight")
             }
@@ -73,58 +86,64 @@ const Contacts = ({ isSelected, theme }) => {
       </div>
       <div className="p-4" style={{ overflowY: "auto", height: "85vh" }}>
         <div style={{ overflowY: "auto" }}>
-          {Object.keys(contacts).map((key, index) => {
-            return (
-              <div className="">
-                <div
-                  className="p-3"
-                  style={{ fontWeight: "500", color: "#7269ef" }}
-                >
-                  {key.toUpperCase()}
-                </div>
-                {contacts[key].map((contact, index) => {
-                  return (
-                    <div className="" style={{ padding: "10px 20px" }}>
+          {Object.keys(contacts)
+            .sort()
+            .map((key, index) => {
+              return (
+                <div className="">
+                  <div
+                    className="p-3"
+                    style={{ fontWeight: "500", color: "#7269ef" }}
+                  >
+                    {key.toUpperCase()}
+                  </div>
+                  {contacts[key].map((contact, index) => {
+                    return (
                       <div
-                        className="d-flex align-items-center justify-content-between"
-                        style={{}}
+                        className=""
+                        style={{ padding: "10px 20px" }}
+                        key={index}
                       >
-                        <h5
-                          className="align-items-center"
-                          style={{
-                            fontSize: "15px",
-                            color: theme ? "#eff2f7" : "#343a40",
-                          }}
+                        <div
+                          className="d-flex align-items-center justify-content-between"
+                          style={{}}
                         >
-                          {contact}
-                        </h5>
-                        <i
-                          className="ri-more-2-fill"
-                          style={{
-                            color: theme ? "#abb4d2" : "#7a7f9a",
-                            fontSize: "15px",
-                          }}
-                        ></i>
+                          <h5
+                            className="align-items-center"
+                            style={{
+                              fontSize: "15px",
+                              color: theme ? "#eff2f7" : "#343a40",
+                            }}
+                          >
+                            {contact}
+                          </h5>
+                          <i
+                            className="ri-more-2-fill"
+                            style={{
+                              color: theme ? "#abb4d2" : "#7a7f9a",
+                              fontSize: "15px",
+                            }}
+                          ></i>
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
-              </div>
-            );
-          })}
+                    );
+                  })}
+                </div>
+              );
+            })}
         </div>
       </div>
     </div>
   );
 };
 
-const contacts = {
-  a: ["Alex Smith", "Annie Besant"],
-  b: ["Blakely Smith", "Brandon Wells"],
-  c: ["Craig Smiley"],
-  d: ["Daniel Clay", "Doris Brown"],
-  i: ["Iris Wells"],
-  j: ["Juan Flakes", "Jhon Hills", "Joy Southern"],
-};
+// const contacts = {
+//   a: ["Alex Smith", "Annie Besant"],
+//   b: ["Blakely Smith", "Brandon Wells"],
+//   c: ["Craig Smiley"],
+//   d: ["Daniel Clay", "Doris Brown"],
+//   i: ["Iris Wells"],
+//   j: ["Juan Flakes", "Jhon Hills", "Joy Southern"],
+// };
 
 export default Contacts;

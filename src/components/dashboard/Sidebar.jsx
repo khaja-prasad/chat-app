@@ -11,17 +11,25 @@ const Sidebar = ({
   setUser,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
-  const nav = useNavigate();
-  const arr = ["My Profile", "Chats", "Groups", "Contacts", "Settings"];
+  const sections = [
+    { name: "My Profile", icon: "ri-user-2-line" },
+    { name: "Chats", icon: "ri-message-3-line" },
+    { name: "Groups", icon: "ri-group-line" },
+    { name: "Contacts", icon: "ri-contacts-line" },
+    { name: "Settings", icon: "ri-settings-2-line" },
+  ];
 
-  const toggleDropup = () => {
-    setIsOpen(!isOpen);
+  const handleLogout = () => {
+    setUser("");
+    navigate("/");
   };
+
   return (
     <div
       id="sidebar"
-      className=" sidebar"
+      className="sidebar"
       style={{ backgroundColor: theme ? "#36404a" : "#ffffff" }}
     >
       <div id="topLogo">
@@ -31,49 +39,21 @@ const Sidebar = ({
           arr={"logo"}
         />
       </div>
-      <div id="sidebarMiddleIcons" className="">
-        <SidebarIcon
-          icon={
-            <i
-              className="ri-user-2-line"
-              style={{ color: theme ? "" : "" }}
-            ></i>
-          }
-          fontSize={"25px"}
-          theme={theme}
-          isSelected={isSelected}
-          arr={arr[0]}
-          setIsSelected={() => setIsSelected(arr[0])}
-        />
-        <SidebarIcon
-          icon={<i className="ri-message-3-line"></i>}
-          theme={theme}
-          isSelected={isSelected}
-          arr={arr[1]}
-          setIsSelected={() => setIsSelected(arr[1])}
-        />
-        <SidebarIcon
-          icon={<i className="ri-group-line"></i>}
-          theme={theme}
-          isSelected={isSelected}
-          arr={arr[2]}
-          setIsSelected={() => setIsSelected(arr[2])}
-        />
-        <SidebarIcon
-          icon={<i className="ri-contacts-line"></i>}
-          theme={theme}
-          isSelected={isSelected}
-          arr={arr[3]}
-          setIsSelected={() => setIsSelected(arr[3])}
-        />
-        <SidebarIcon
-          icon={<i className="ri-settings-2-line"></i>}
-          theme={theme}
-          isSelected={isSelected}
-          arr={arr[4]}
-          setIsSelected={() => setIsSelected(arr[4])}
-        />
+
+      <div id="sidebarMiddleIcons">
+        {sections.map(({ name, icon }) => (
+          <SidebarIcon
+            key={name}
+            icon={<i className={icon}></i>}
+            fontSize="25px"
+            theme={theme}
+            isSelected={isSelected}
+            arr={name}
+            setIsSelected={() => setIsSelected(name)}
+          />
+        ))}
       </div>
+
       <div id="bottomIcons" className="lastIcons">
         <SidebarIcon
           setIsSelected={() => setThemee()}
@@ -91,10 +71,10 @@ const Sidebar = ({
           theme={theme}
           icon={
             <div className="dropup">
-              <button className="dropbtn" onClick={toggleDropup}>
+              <button className="dropbtn" onClick={() => setIsOpen(!isOpen)}>
                 <img
-                  src={user.profile_photo_url}
-                  alt={user.name}
+                  src={user?.profile_photo_url}
+                  alt={user?.name || "User"}
                   className="rounded-circle"
                   style={{ width: "35.19px", height: "35.19px" }}
                 />
@@ -103,14 +83,11 @@ const Sidebar = ({
                 <div className="dropup-content">
                   <div
                     className="text-center rounded"
-                    onClick={() => {
-                      setUser("");
-                      nav("/");
-                    }}
+                    onClick={handleLogout}
                     style={{
                       cursor: "pointer",
                       color: theme ? "#eff2f7" : "#343a40",
-                      backgroundColor: theme ? "black" : "white",
+                      backgroundColor: theme ? "#000" : "#fff",
                     }}
                   >
                     Logout
@@ -121,7 +98,7 @@ const Sidebar = ({
           }
           isSelected={isSelected}
           arr="profile-main"
-          setIsSelected={toggleDropup}
+          setIsSelected={() => setIsOpen(!isOpen)}
         />
       </div>
     </div>
