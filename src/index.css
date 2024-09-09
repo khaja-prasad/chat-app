@@ -271,11 +271,11 @@ code {
   color: #a7aed2;
 }
 
-.phColorLight {
+.phColorLight::placeholder {
   color: #878a92 !important;
 }
 
-.phColorDark {
+.phColorDark::placeholder {
   color: #a7aed2 !important;
 }
 
@@ -424,8 +424,11 @@ div {
   width: 8px;
 }
 
+.cll {
+  color: rgba(0, 0, 0, 0.226);
+}
 ::-webkit-scrollbar-track {
-  background: #878a9225;
+  background: rgba(122, 127, 139, 0.315);
   border-radius: 10px;
 }
 

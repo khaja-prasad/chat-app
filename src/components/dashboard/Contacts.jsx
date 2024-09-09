@@ -90,7 +90,7 @@ const Contacts = ({ isSelected, theme, users }) => {
             .sort()
             .map((key, index) => {
               return (
-                <div className="">
+                <div className="" key={key}>
                   <div
                     className="p-3"
                     style={{ fontWeight: "500", color: "#7269ef" }}

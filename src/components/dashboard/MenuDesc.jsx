@@ -10,7 +10,7 @@ const MenuDesc = ({
   theme,
   isSelected,
   chatUser,
-  setConversationId,
+  setUser,
   setChatUser,
   user,
   users,
@@ -43,6 +43,7 @@ const MenuDesc = ({
         <Groups
           isSelected={isSelected}
           theme={theme}
+          users={users}
           groupSelected={groupSelected}
           setGroupSelected={(e) => setGroupSelected(e)}
         />
@@ -56,7 +57,12 @@ const MenuDesc = ({
         />
       )}
       {isSelected === "Settings" && (
-        <Settings isSelected={isSelected} theme={theme} user={user} />
+        <Settings
+          isSelected={isSelected}
+          theme={theme}
+          user={user}
+          setUser={(e) => setUser(e)}
+        />
       )}
     </div>
   );

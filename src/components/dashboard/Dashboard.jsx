@@ -98,6 +98,7 @@ const Dashboard = ({ user, setUser }) => {
         setChatBox={setChatBox}
         theme={theme}
         user={user}
+        setUser={(e) => setUser(e)}
         setConversationId={setConversationId}
         users={users}
         isSelected={isSelected}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 
@@ -10,10 +10,24 @@ const ChatMenu = ({
   setChatBox,
   users,
 }) => {
+  const [optimisedUsers, setOptimisedUsers] = useState(users);
+
+  useEffect(() => {
+    setOptimisedUsers(users);
+  }, [users]);
+
   const handleChat = async (ar) => {
     setChatUser(ar);
 
     setChatBox("0");
+  };
+
+  const handleSearchChange = (e) => {
+    setOptimisedUsers(
+      users.filter((user) =>
+        user.name.toLowerCase().includes(e.target.value.toLowerCase())
+      )
+    );
   };
 
   const items = users.map((arr) => {
@@ -93,6 +107,7 @@ const ChatMenu = ({
               fontSize: "18px",
               borderTopLeftRadius: "3px",
               borderBottomLeftRadius: "3px",
+              color: theme ? "#a7aed2" : "#878a92",
               backgroundColor: theme ? "#36404a" : "#e6ebf5",
             }}
           >
@@ -100,6 +115,7 @@ const ChatMenu = ({
           </span>
           <input
             type="search"
+            onChange={handleSearchChange}
             name="chat-search"
             id={theme ? "csearchPhDark" : "csearchPhLight"}
             placeholder="Search messages or users"
@@ -113,7 +129,7 @@ const ChatMenu = ({
               borderTopLeftRadius: "0",
               borderBottomLeftRadius: "0",
               backgroundColor: theme ? "#36404a" : "#e6ebf5",
-
+              color: theme ? "white" : "black",
               height: "45px",
               padding: "6px 16px",
 
@@ -158,7 +174,7 @@ const ChatMenu = ({
             height: "70vh",
           }}
         >
-          {users.map((ar) => {
+          {optimisedUsers.map((ar) => {
             return (
               <div
                 key={ar._id}

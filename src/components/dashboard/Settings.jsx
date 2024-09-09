@@ -1,10 +1,52 @@
-import React from "react";
+import React, { useRef } from "react";
 import Accordion from "react-bootstrap/Accordion";
 import Form from "react-bootstrap/Form";
+import axios from "axios";
 import Dropdown from "react-bootstrap/Dropdown";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { toast } from "react-toastify";
 
-const Settings = ({ isSelected, theme, user }) => {
+const Settings = ({ isSelected, theme, user, setUser }) => {
+  const profileImageUploadRef = useRef(null);
+
+  const handleProfileImageUpload = async (e) => {
+    e.preventDefault();
+    // setisPicker(false);
+    const profile_image = e.target.files[0];
+    if (
+      !(
+        profile_image &&
+        Object.keys(profile_image).length === 0 &&
+        profile_image.constructor === Object
+      )
+    ) {
+      // console.log(image);
+      const formdata = new FormData();
+      // formdata.append("conversationId", conversationId);
+      formdata.append("_id", user._id);
+
+      formdata.append("profile_photo", profile_image);
+      try {
+        await axios
+          .post("http://localhost:3030/profilephotoupload", formdata)
+          .then((res) => {
+            // console.log(res);
+            profileImageUploadRef.current.value = "";
+            setUser(res.data);
+            // setCon("");
+            return toast.success("Profile Photo Uploaded Successfully!!", {
+              autoClose: 2000,
+            });
+          });
+      } catch (error) {
+        console.log(error);
+        toast.error(error || "Error uploading profile photo.");
+      }
+
+      return;
+    }
+  };
+
   return (
     <div>
       <div className="d-flex justify-content-between px-4 pt-4">
@@ -27,7 +69,7 @@ const Settings = ({ isSelected, theme, user }) => {
           borderBottom: "1px solid " + (theme ? "#36404a" : "#f0eff5"),
         }}
       >
-        <div className="mb-4">
+        <div className="mb-4" style={{ position: "relative" }}>
           <img
             className="rounded-circle"
             src={user.profile_photo_url}
@@ -39,6 +81,39 @@ const Settings = ({ isSelected, theme, user }) => {
               marginTop: "-2px",
             }}
           />
+          <div
+            onClick={() => profileImageUploadRef.current.click()}
+            style={{
+              position: "absolute",
+              backgroundColor: theme ? "rgb(95, 95, 95)" : "#d3d5d9",
+              left: "55%",
+              top: "63%",
+              width: "30px",
+              height: "30px",
+              borderRadius: "50%",
+              cursor: "pointer",
+            }}
+            className="d-flex justify-content-center align-items-center"
+          >
+            <input
+              type="file"
+              ref={profileImageUploadRef}
+              name="profileImageUpdate"
+              id="profileImageUpload"
+              // value={image}
+              style={{ display: "none" }}
+              accept="image/png, image/jpeg, image/jpg"
+              onChange={handleProfileImageUpload}
+            />
+            <i
+              className="ri-pencil-fill"
+              style={{
+                // marginRight: "20px",
+                fontSize: "20px",
+                color: "rgb(17 0 255)",
+              }}
+            ></i>
+          </div>
         </div>
         <h5
           style={{ fontSize: "16px", color: theme ? "#eff2f7" : "#000000" }}
